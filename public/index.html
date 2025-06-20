@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
   <title>Foodie | Delicious Meals Delivered</title>
   <style>
     /* Reset */
@@ -23,89 +26,60 @@
     }
 
     /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    .navbar-custom {
+      background-color: #ff5722;
       padding: 15px 30px;
-      background: #ff5722;
       color: #fff;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
     }
 
-    .site-logo p {
+    .navbar-brand {
       font-size: 1.8rem;
       font-weight: bold;
       user-select: none;
-      cursor: default;
+      color: #fff;
     }
 
-    .navbar-links {
-      list-style: none;
-      display: flex;
-      gap: 25px;
-    }
-
-    .navbar-links li {
-      position: relative;
-    }
-
-    .navbar-links li a {
+    .navbar-nav .nav-link {
       color: #fff;
       font-weight: 600;
-      text-decoration: none;
       padding: 6px 10px;
       border-radius: 5px;
       transition: background 0.3s;
     }
 
-    .navbar-links li a:hover,
-    .navbar-links li.active a {
+    .navbar-nav .nav-link:hover,
+    .navbar-nav .nav-link.active {
       background: rgba(255,255,255,0.3);
     }
 
-    .navbar-dropdown .dropdown {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
+    .dropdown-menu {
       background-color: orange;
       box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      min-width: 180px;
-      z-index: 999;
-      color: black;
+      border: none;
     }
 
-    .navbar-dropdown:hover .dropdown {
-      display: block;
-    }
-
-    .dropdown a {
-      display: block;
+    .dropdown-item {
+      color: white;
       padding: 12px 16px;
-      color: #333;
-      text-decoration: none;
       transition: background 0.3s;
     }
 
-    .dropdown a:hover {
+    .dropdown-item:hover {
       background-color: #ffe082;
     }
 
-    .button-2 {
+    .contact-btn {
       background: #fff;
       color: #ff5722;
       font-weight: 700;
       padding: 10px 20px;
       border-radius: 30px;
       border: none;
-      cursor: pointer;
       transition: background-color 0.3s ease;
+      text-decoration: none;
     }
 
-    .button-2:hover {
+    .contact-btn:hover {
       background-color: #e64a19;
       color: #fff;
     }
@@ -914,24 +888,48 @@
 <body>
 
   <!-- Navbar -->
-  <nav class="navbar">
-    <div class="site-logo"><p>F🍛🍛die</p></div>
-    <ul class="navbar-links">
-      <li><a href="index.html">Home</a></li>
-      <li class="navbar-dropdown active">
-        <a href="#">Restaurants</a>
-        <div class="dropdown">
-          <a href="restaurants.html">Restaurants</a>
-          <a href="restaurant-card.html">Restaurant Card</a>
-          <a href="checkout.html">Checkout</a>
-        </div>
-      </li>
-      <li><a href="offers.html">Offers</a></li>
-      <li><a href="about-us.html">About</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-    <button class="button-2"><a href="contact.html">Contact Us</a></button>
-  </nav>
+<nav class="navbar navbar-expand-lg navbar-custom sticky-top">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">F🍛🍛die</a>
+
+    <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <ul class="navbar-nav gap-2">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+
+        <!-- Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle active" href="#" id="restaurantDropdown" role="button" data-bs-toggle="dropdown">
+            Restaurants
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="restaurants.html">Restaurants</a></li>
+            <li><a class="dropdown-item" href="restaurant-card.html">Restaurant Card</a></li>
+            <li><a class="dropdown-item" href="checkout.html">Checkout</a></li>
+          </ul>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="offers.html">Offers</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about-us.html">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">Contact</a>
+        </li>
+      </ul>
+
+      <!-- Contact Button -->
+      <a href="contact.html" class="ms-3 contact-btn">Contact Us</a>
+    </div>
+  </div>
+</nav>
 
 
   <!-- Hero Section -->
@@ -1272,6 +1270,8 @@
     }
   }
 </script>
+<!-- Bootstrap JS (for toggling mobile menu) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
