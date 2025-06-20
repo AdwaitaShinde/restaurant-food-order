@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Foodie | Restaurant Menu & Checkout</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f8f9fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #ff5722;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .site-logo p {
+      font-size: 1.8rem;
+      font-weight: bold;
+      user-select: none;
+      cursor: default;
+    }
+
+    .navbar-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .navbar-links li {
+      position: relative;
+    }
+
+    .navbar-links li a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .navbar-links li a:hover,
+    .navbar-links li.active a {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .navbar-dropdown .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: orange;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      min-width: 180px;
+      z-index: 999;
+      color: black;
+    }
+
+    .navbar-dropdown:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 16px;
+      color: #333;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .dropdown a:hover {
+      background-color: #ffe082;
+    }
+
+    .button-2 {
+      background: #fff;
+      color: #ff5722;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-2:hover {
+      background-color: #e64a19;
+      color: #fff;
+    }
+    
+    /* Container */
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+    
+    .page-title {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #ff5722;
+      font-size: 2.5rem;
+    }
+    
+    /* Restaurant Header */
+    .restaurant-header {
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      padding: 20px;
+      gap: 30px;
+    }
+    
+    .restaurant-image {
+      width: 250px;
+      height: 200px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    
+    .restaurant-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .restaurant-info h2 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    
+    .restaurant-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #ff9800;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-weight: 700;
+      width: fit-content;
+      margin-bottom: 15px;
+    }
+    
+    .restaurant-cuisine {
+      color: #777;
+      margin-bottom: 15px;
+      font-size: 1rem;
+    }
+    
+    /* Menu Tabs */
+    .menu-tabs {
+      display: flex;
+      background: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .tab-btn {
+      flex: 1;
+      padding: 15px 20px;
+      text-align: center;
+      background: #f0f0f0;
+      border: none;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .tab-btn.active {
+      background: #ff5722;
+      color: white;
+    }
+    
+    /* Menu Items */
+    .menu-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .menu-item {
+      display: flex;
+      gap: 15px;
+      padding: 15px;
+      border-radius: 8px;
+      background: #fff8f0;
+      transition: transform 0.3s;
+      cursor: pointer;
+    }
+    
+    .menu-item:hover {
+      transform: translateY(-5px);
+      background: #fff1e0;
+    }
+    
+    .item-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 8px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    
+    .item-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    
+    .item-info {
+      flex: 1;
+    }
+    
+    .item-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      color: #333;
+    }
+    
+    .item-description {
+      color: #666;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+    
+    .item-price {
+      color: #ff5722;
+      font-weight: 700;
+      font-size: 1.1rem;
+      margin-top: auto;
+    }
+    
+    .item-add {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .quantity-btn {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: none;
+      background: #ff5722;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    
+    .item-quantity {
+      min-width: 30px;
+      text-align: center;
+    }
+    
+    /* Checkout Section */
+    .checkout-container {
+      display: flex;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    
+    .order-summary, .customer-info {
+      flex: 1;
+      min-width: 300px;
+      background: white;
+      border-radius: 12px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      color: #ff5722;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #eee;
+    }
+    
+    /* Order Summary */
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .cart-item-info {
+      flex: 1;
+    }
+    
+    .cart-item-name {
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+    
+    .cart-item-price {
+      color: #ff5722;
+      font-weight: 700;
+    }
+    
+    .cart-item-quantity {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 700;
+      font-size: 1.2rem;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 2px solid #eee;
+    }
+    
+    /* Forms */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 20px;
+    }
+    
+    .form-col {
+      flex: 1;
+    }
+    
+    /* Payment Options */
+    .payment-options {
+      display: flex;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
+    .payment-option {
+      flex: 1;
+      text-align: center;
+      padding: 15px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .payment-option.active {
+      border-color: #ff5722;
+      background: #fff8f0;
+    }
+    
+    .payment-option i {
+      font-size: 2rem;
+      margin-bottom: 10px;
+      color: #666;
+    }
+    
+    .payment-option.active i {
+      color: #ff5722;
+    }
+    
+    /* Buttons */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    
+    .btn-primary {
+      background: #ff5722;
+      color: white;
+    }
+    
+    .btn-primary:hover {
+      background: #e64a19;
+    }
+    
+    .btn-outline {
+      background: white;
+      color: #ff5722;
+      border: 2px solid #ff5722;
+    }
+    
+    .btn-outline:hover {
+      background: #fff8f0;
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+        /* Footer */
+    footer {
+      background: #2c2c2c;
+      color: #fff;
+      padding: 50px 20px;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .footer-about {
+      line-height: 1.6;
+      color: #ccc;
+    }
+    .footer-links h3, .footer-newsletter h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    .footer-links h3::after, .footer-newsletter h3::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 3px;
+      background: #ff5722;
+    }
+    .footer-links ul {
+      list-style: none;
+    }
+    .footer-links ul li {
+      margin-bottom: 10px;
+    }
+    .footer-links ul li a {
+      color: #ccc;
+      transition: color 0.3s;
+    }
+    .footer-links ul li a:hover {
+      color: #ff5722;
+    }
+    .footer-newsletter form {
+      display: flex;
+      margin-top: 15px;
+    }
+    .footer-newsletter input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      outline: none;
+      border-radius: 4px 0 0 4px;
+    }
+    .footer-newsletter button {
+      background: #ff5722;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+      transition: background 0.3s;
+    }
+    .footer-newsletter button:hover {
+      background: #e64a19;
+    }
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: #444;
+      border-radius: 50%;
+      color: white;
+      transition: background 0.3s;
+    }
+    .social-links a:hover {
+      background: #ff5722;
+    }
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid #444;
+      color: #999;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      .hero .sub-text {
+        font-size: 1.1rem;
+      }
+      .restaurants-list,
+      .dishes-list {
+        justify-content: center;
+      }
+      .how-it-works {
+        flex-direction: column;
+        align-items: center;
+      }
+      .menu-categories {
+        flex-direction: column;
+        gap: 15px;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .restaurant-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .restaurant-rating {
+        margin: 0 auto 15px;
+      }
+      
+      .menu-tabs {
+        flex-direction: column;
+      }
+      
+      .form-row {
+        flex-direction: column;
+        gap: 0;
+      }
+      
+      .payment-options {
+        flex-direction: column;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="site-logo"><p>F🍛🍛die</p></div>
+    <ul class="navbar-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="navbar-dropdown active">
+        <a href="#">Restaurants</a>
+        <div class="dropdown">
+          <a href="restaurants.html">Restaurants</a>
+          <a href="restaurant-card.html">Restaurant Card</a>
+          <a href="checkout.html">Checkout</a>
+        </div>
+      </li>
+      <li><a href="offers.html">Offers</a></li>
+      <li><a href="about-us.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="button-2">Contact Us</button>
+  </nav>
+
+  <div class="container">
+    <h1 class="page-title">Spice Hub Restaurant</h1>
+    
+    <!-- Restaurant Header -->
+    <div class="restaurant-header">
+      <div class="restaurant-image">
+        <img src="https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?ixlib=rb-4.1.0&auto=format&fit=crop&w=1470&q=80" alt="Spice Hub">
+      </div>
+      <div class="restaurant-info">
+        <h2>Spice Hub</h2>
+        <div class="restaurant-rating">
+          <i class="fas fa-star"></i> 4.7
+        </div>
+        <p class="restaurant-cuisine">Indian • North Indian</p>
+        <p>Experience the authentic flavors of North India with our carefully crafted dishes using traditional spices.</p>
+      </div>
+    </div>
+    
+    <!-- Menu Tabs -->
+    <div class="menu-tabs">
+      <button class="tab-btn active" data-tab="breakfast">Breakfast</button>
+      <button class="tab-btn" data-tab="lunch">Lunch</button>
+      <button class="tab-btn" data-tab="dinner">Dinner</button>
+    </div>
+    
+    <!-- Menu Items -->
+    <div class="menu-items">
+      <!-- Breakfast Items -->
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1555126634-323283e090fa?ixlib=rb-4.1.0&auto=format&fit=crop&w=1320&q=80" alt="Masala Dosa">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Masala Dosa</h3>
+          <p class="item-description">Crispy rice crepe filled with spiced potatoes</p>
+          <div class="item-price">₹120</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+      
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1599490659213-e2b2087a9fe8?ixlib=rb-4.1.0&auto=format&fit=crop&w=1320&q=80" alt="Poha">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Poha</h3>
+          <p class="item-description">Flattened rice with potatoes and spices</p>
+          <div class="item-price">₹80</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+      
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?ixlib=rb-4.1.0&auto=format&fit=crop&w=1470&q=80" alt="Idli Sambar">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Idli Sambar</h3>
+          <p class="item-description">Steamed rice cakes with lentil soup</p>
+          <div class="item-price">₹90</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+      
+      <!-- Lunch Items -->
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1631515243349-e0cb75fb8d3a?ixlib=rb-4.1.0&auto=format&fit=crop&w=1488&q=80" alt="Butter Chicken">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Butter Chicken</h3>
+          <p class="item-description">Tender chicken in rich tomato gravy</p>
+          <div class="item-price">₹280</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+      
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.1.0&auto=format&fit=crop&w=1471&q=80" alt="Paneer Tikka">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Paneer Tikka</h3>
+          <p class="item-description">Grilled cottage cheese with spices</p>
+          <div class="item-price">₹220</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+      
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1631452180519-c014fe946bc7?ixlib=rb-4.1.0&auto=format&fit=crop&w=1431&q=80" alt="Dal Makhani">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Dal Makhani</h3>
+          <p class="item-description">Creamy black lentils simmered overnight</p>
+          <div class="item-price">₹180</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+      
+      <!-- Dinner Items -->
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1603894584373-5ac82b2ae398?ixlib=rb-4.1.0&auto=format&fit=crop&w=1470&q=80" alt="Biryani">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Chicken Biryani</h3>
+          <p class="item-description">Fragrant basmati rice with chicken and spices</p>
+          <div class="item-price">₹250</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+      
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1563245372-f21724e3856d?ixlib=rb-4.1.0&auto=format&fit=crop&w=1470&q=80" alt="Tandoori Roti">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Tandoori Roti</h3>
+          <p class="item-description">Traditional clay oven baked bread</p>
+          <div class="item-price">₹30</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+      
+      <div class="menu-item">
+        <div class="item-image">
+          <img src="https://images.unsplash.com/photo-1606491956689-2ea866880c84?ixlib=rb-4.1.0&auto=format&fit=crop&w=1471&q=80" alt="Raita">
+        </div>
+        <div class="item-info">
+          <h3 class="item-title">Raita</h3>
+          <p class="item-description">Yogurt with cucumber and spices</p>
+          <div class="item-price">₹70</div>
+        </div>
+        <div class="item-add">
+          <button class="quantity-btn">-</button>
+          <span class="item-quantity">0</span>
+          <button class="quantity-btn">+</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-about">
+        <div class="footer-logo">F🍛🍛die</div>
+        <p>Foodie brings delicious meals right to your doorstep. We partner with the best local restaurants to give you a variety of options.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Twitter">t</a>
+          <a href="#" aria-label="Instagram">i</a>
+          <a href="#" aria-label="YouTube">y</a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Restaurants</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Offers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="#">Italian</a></li>
+          <li><a href="#">Indian</a></li>
+          <li><a href="#">Japanese</a></li>
+          <li><a href="#">Mexican</a></li>
+          <li><a href="#">Desserts</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-newsletter">
+        <h3>Newsletter</h3>
+        <p>Subscribe to get special offers and restaurant updates</p>
+        <form>
+          <input type="email" placeholder="Your email address">
+          <button type="submit">→</button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2023 Foodie. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Menu tab functionality
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        // Remove active class from all buttons
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        // Add active class to clicked button
+        button.classList.add('active');
+      });
+    });
+    
+    // Quantity buttons functionality
+    const quantityBtns = document.querySelectorAll('.quantity-btn');
+    quantityBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const parent = e.target.closest('.item-add, .cart-item-quantity');
+        const quantityElement = parent.querySelector('span');
+        let quantity = parseInt(quantityElement.textContent);
+        
+        if(e.target.textContent === '+') {
+          quantity++;
+        } else if(e.target.textContent === '-' && quantity > 0) {
+          quantity--;
+        }
+        
+        quantityElement.textContent = quantity;
+      });
+    });
+    
+  </script>
+</body>
+</html>

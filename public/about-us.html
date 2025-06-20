@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us | Foodie</title>
+  <style>
+    /* Reset and base styles from existing site */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #ff5722;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .site-logo p {
+      font-size: 1.8rem;
+      font-weight: bold;
+      user-select: none;
+      cursor: default;
+    }
+
+    .navbar-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .navbar-links li {
+      position: relative;
+    }
+
+    .navbar-links li a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .navbar-links li a:hover,
+    .navbar-links li.active a {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .navbar-dropdown .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: orange;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      min-width: 180px;
+      z-index: 999;
+      color: black;
+    }
+
+    .navbar-dropdown:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 16px;
+      color: #333;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .dropdown a:hover {
+      background-color: #ffe082;
+    }
+
+    .button-2 {
+      background: #fff;
+      color: #ff5722;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-2:hover {
+      background-color: #e64a19;
+      color: #fff;
+    }
+
+    /* Hero Section for About Page */
+    .about-hero {
+      position: relative;
+      height: 60vh;
+      background: url('https://images.unsplash.com/photo-1550966871-3ed3cdb5ed0c?auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      overflow: hidden;
+    }
+    .about-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 0;
+    }
+    .about-hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+    .about-hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+    }
+    .about-hero p {
+      font-size: 1.3rem;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    /* Sections styling */
+    section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    section h2 {
+      text-align: center;
+      font-size: 2.8rem;
+      margin-bottom: 50px;
+      color: #ff5722;
+      font-weight: 700;
+      position: relative;
+    }
+    section h2::after {
+      content: "";
+      position: absolute;
+      bottom: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: #ff5722;
+      border-radius: 2px;
+    }
+
+    /* Our Story Section */
+    .our-story {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+    }
+    .story-content {
+      flex: 1;
+      min-width: 300px;
+    }
+    .story-image {
+      flex: 1;
+      min-width: 300px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    .story-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .story-image:hover img {
+      transform: scale(1.05);
+    }
+    .story-content h3 {
+      font-size: 2rem;
+      color: #ff5722;
+      margin-bottom: 20px;
+    }
+    .story-content p {
+      font-size: 1.1rem;
+      line-height: 1.8;
+      margin-bottom: 20px;
+      color: #555;
+    }
+    .milestones {
+      display: flex;
+      justify-content: space-around;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .milestone {
+      text-align: center;
+      flex: 1;
+      min-width: 150px;
+    }
+    .milestone-number {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #ff5722;
+      margin-bottom: 10px;
+    }
+    .milestone-text {
+      font-size: 1.1rem;
+      color: #555;
+    }
+
+    /* Our Values Section */
+    .values-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    .value-card {
+      background: #fff;
+      border-radius: 15px;
+      padding: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+    }
+    .value-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    .value-icon {
+      font-size: 3.5rem;
+      margin-bottom: 20px;
+      color: #ff5722;
+    }
+    .value-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    .value-card p {
+      color: #666;
+      line-height: 1.7;
+    }
+
+    /* Our Team Section */
+    .team-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+    .team-member {
+      text-align: center;
+    }
+    .member-photo {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      border: 5px solid #fff;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .member-photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .member-photo:hover img {
+      transform: scale(1.1);
+    }
+    .team-member h3 {
+      font-size: 1.5rem;
+      margin-bottom: 5px;
+    }
+    .team-member .position {
+      color: #ff5722;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    .team-member p {
+      color: #666;
+      line-height: 1.6;
+    }
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: #f5f5f5;
+      border-radius: 50%;
+      color: #ff5722;
+      transition: all 0.3s ease;
+    }
+    .social-links a:hover {
+      background: #ff5722;
+      color: #fff;
+      transform: translateY(-3px);
+    }
+
+    /* 12. Newsletter */
+    .newsletter {
+      background: #ff5722;
+      color: white;
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 12px;
+      max-width: 900px;
+      margin: 60px auto;
+    }
+    .newsletter input[type="email"] {
+      padding: 15px 20px;
+      border-radius: 40px 0 0 40px;
+      border: none;
+      font-size: 1.1rem;
+      width: 280px;
+      max-width: 100%;
+      outline: none;
+      border: 2px solid #fff;
+    }
+    .newsletter button {
+      padding: 15px 30px;
+      border-radius: 0 40px 40px 0;
+      border: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+      cursor: pointer;
+      background: white;
+      color: #ff5722;
+      transition: background-color 0.3s ease;
+      user-select: none;
+    }
+    .newsletter button:hover {
+      background-color: #e64a19;
+      color: white;
+    }
+
+        /* Footer */
+    footer {
+      background: #2c2c2c;
+      color: #fff;
+      padding: 50px 20px;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .footer-about {
+      line-height: 1.6;
+      color: #ccc;
+    }
+    .footer-links h3, .footer-newsletter h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    .footer-links h3::after, .footer-newsletter h3::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 3px;
+      background: #ff5722;
+    }
+    .footer-links ul {
+      list-style: none;
+    }
+    .footer-links ul li {
+      margin-bottom: 10px;
+    }
+    .footer-links ul li a {
+      color: #ccc;
+      transition: color 0.3s;
+    }
+    .footer-links ul li a:hover {
+      color: #ff5722;
+    }
+    .footer-newsletter form {
+      display: flex;
+      margin-top: 15px;
+    }
+    .footer-newsletter input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      outline: none;
+      border-radius: 4px 0 0 4px;
+    }
+    .footer-newsletter button {
+      background: #ff5722;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+      transition: background 0.3s;
+    }
+    .footer-newsletter button:hover {
+      background: #e64a19;
+    }
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: #444;
+      border-radius: 50%;
+      color: white;
+      transition: background 0.3s;
+    }
+    .social-links a:hover {
+      background: #ff5722;
+    }
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid #444;
+      color: #999;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      .hero .sub-text {
+        font-size: 1.1rem;
+      }
+      .restaurants-list,
+      .dishes-list {
+        justify-content: center;
+      }
+      .how-it-works {
+        flex-direction: column;
+        align-items: center;
+      }
+      .menu-categories {
+        flex-direction: column;
+        gap: 15px;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .about-hero {
+        height: 50vh;
+      }
+      .about-hero h1 {
+        font-size: 2.5rem;
+      }
+      .about-hero p {
+        font-size: 1.1rem;
+      }
+      section {
+        padding: 60px 20px;
+      }
+      section h2 {
+        font-size: 2.2rem;
+      }
+      .join-team {
+        padding: 40px 20px;
+      }
+    }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="site-logo"><p>F🍛🍛die</p></div>
+    <ul class="navbar-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="navbar-dropdown">
+        <a href="#">Restaurants</a>
+        <div class="dropdown">
+          <a href="restaurants.html">Restaurants</a>
+          <a href="restaurant-card.html">Restaurant Card</a>
+          <a href="checkout.html">Checkout</a>
+        </div>
+      </li>
+      <li><a href="offers.html">Offers</a></li>
+      <li class="active"><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="button-2">Contact Us</button>
+  </nav>
+
+  <!-- Hero Section for About Page -->
+  <div class="about-hero">
+    <div class="about-hero-content">
+      <h1>About Foodie</h1>
+      <p>Discover the story behind India's favorite food delivery service</p>
+    </div>
+  </div>
+
+  <!-- Our Story Section -->
+  <section id="our-story">
+    <h2>Our Story</h2>
+    <div class="our-story">
+      <div class="story-content">
+        <h3>From Humble Beginnings to Culinary Excellence</h3>
+        <p>Foodie began in 2018 as a small startup in Mumbai with a simple mission: to connect people with the best local food in their city. Our founder, Raj Sharma, noticed how difficult it was to discover authentic local cuisine beyond the usual restaurant chains.</p>
+        <p>What started as a passion project with just five restaurants has grown into a nationwide platform featuring over 10,000 eateries. Today, we serve millions of customers across 50+ cities, delivering delicious meals with care and efficiency.</p>
+        <p>At Foodie, we believe that great food should be accessible to everyone, anytime. Our journey continues as we innovate to bring you the best dining experiences right to your doorstep.</p>
+      </div>
+      <div class="story-image">
+        <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Foodie founders in early days">
+      </div>
+    </div>
+    
+    <div class="milestones">
+      <div class="milestone">
+        <div class="milestone-number">2018</div>
+        <div class="milestone-text">Founded in Mumbai</div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-number">10K+</div>
+        <div class="milestone-text">Partner Restaurants</div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-number">50+</div>
+        <div class="milestone-text">Cities Across India</div>
+      </div>
+      <div class="milestone">
+        <div class="milestone-number">5M+</div>
+        <div class="milestone-text">Happy Customers</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Our Values Section -->
+  <section id="our-values" style="background-color: #fff9f7;">
+    <h2>Our Values</h2>
+    <div class="values-container">
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-heart"></i></div>
+        <h3>Quality First</h3>
+        <p>We partner only with restaurants that meet our strict quality standards. Every dish is prepared with care and delivered fresh to your doorstep.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-bolt"></i></div>
+        <h3>Fast Delivery</h3>
+        <p>Our efficient delivery network ensures your food arrives hot and fresh. Average delivery time is just 30 minutes in metro areas.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-hands-helping"></i></div>
+        <h3>Community Focus</h3>
+        <p>We support local restaurants and communities. A portion of every order goes to feeding underprivileged families through our FoodShare program.</p>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><i class="fas fa-leaf"></i></div>
+        <h3>Sustainability</h3>
+        <p>We're committed to eco-friendly practices with biodegradable packaging and optimized delivery routes to reduce our carbon footprint.</p>
+      </div>
+    </div>
+  </section>
+
+    <!-- 12. Newsletter -->
+  <section id="newsletter" class="newsletter">
+    <h2>Subscribe to Our Newsletter</h2>
+    <form onsubmit="event.preventDefault(); alert('Subscribed! Thank you!')">
+      <input type="email" placeholder="Enter your email address" aria-label="Enter your email address" required />
+      <button type="submit">Subscribe</button>
+    </form>
+  </section>
+
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-about">
+        <div class="footer-logo">F🍛🍛die</div>
+        <p>Foodie brings delicious meals right to your doorstep. We partner with the best local restaurants to give you a variety of options.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Twitter">t</a>
+          <a href="#" aria-label="Instagram">i</a>
+          <a href="#" aria-label="YouTube">y</a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Restaurants</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Offers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="#">Italian</a></li>
+          <li><a href="#">Indian</a></li>
+          <li><a href="#">Japanese</a></li>
+          <li><a href="#">Mexican</a></li>
+          <li><a href="#">Desserts</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-newsletter">
+        <h3>Newsletter</h3>
+        <p>Subscribe to get special offers and restaurant updates</p>
+        <form>
+          <input type="email" placeholder="Your email address">
+          <button type="submit">→</button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2023 Foodie. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+</body>
+</html>

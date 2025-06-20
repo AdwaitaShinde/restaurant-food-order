@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Contact Us | Foodie - Delicious Meals Delivered</title>
+  <style>
+    /* Reusing the same styles from your home page */
+    * {
+      box-sizing: border-box;
+    }
+    body, html {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #fff;
+      color: #333;
+      scroll-behavior: smooth;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #ff5722;
+      color: #fff;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .site-logo p {
+      font-size: 1.8rem;
+      font-weight: bold;
+      user-select: none;
+      cursor: default;
+    }
+
+    .navbar-links {
+      list-style: none;
+      display: flex;
+      gap: 25px;
+    }
+
+    .navbar-links li {
+      position: relative;
+    }
+
+    .navbar-links li a {
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 6px 10px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .navbar-links li a:hover,
+    .navbar-links li.active a {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .navbar-dropdown .dropdown {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background-color: orange;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      min-width: 180px;
+      z-index: 999;
+      color: black;
+    }
+
+    .navbar-dropdown:hover .dropdown {
+      display: block;
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 12px 16px;
+      color: #333;
+      text-decoration: none;
+      transition: background 0.3s;
+    }
+
+    .dropdown a:hover {
+      background-color: #ffe082;
+    }
+
+    .button-2 {
+      background: #fff;
+      color: #ff5722;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .button-2:hover {
+      background-color: #e64a19;
+      color: #fff;
+    }
+
+    /* Contact Page Specific Styles */
+    .contact-hero {
+      background: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?ixlib=rb-4.1.0&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+      height: 50vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: #fff;
+      position: relative;
+    }
+    
+    .contact-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 0;
+    }
+    
+    .contact-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      padding: 0 20px;
+    }
+    
+    .contact-hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .contact-hero p {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
+    }
+    
+    /* Contact Section */
+    .contact-section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .contact-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    
+    .contact-info {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .contact-form {
+      flex: 1;
+      min-width: 300px;
+    }
+    
+    .contact-card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      padding: 30px;
+      margin-bottom: 30px;
+      transition: transform 0.3s ease;
+    }
+    
+    .contact-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .contact-card h3 {
+      color: #ff5722;
+      font-size: 1.5rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    
+    .contact-card h3::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: #ff5722;
+    }
+    
+    .contact-method {
+      display: flex;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    
+    .contact-icon {
+      width: 50px;
+      height: 50px;
+      background: #ff5722;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 15px;
+      color: white;
+      font-size: 1.5rem;
+    }
+    
+    .contact-detail h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #333;
+    }
+    
+    .contact-detail p {
+      margin: 5px 0 0;
+      color: #666;
+    }
+    
+    .hours-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    
+    .hours-table td {
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+    
+    .hours-table tr:last-child td {
+      border-bottom: none;
+    }
+    
+    .hours-table .day {
+      font-weight: 600;
+    }
+    
+    .map-container {
+      height: 300px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+    
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+    
+    /* Form Styles */
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: #ff5722;
+      box-shadow: 0 0 0 2px rgba(255, 87, 34, 0.2);
+    }
+    
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    
+    .submit-btn {
+      background: #ff5722;
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 30px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: block;
+      width: 100%;
+    }
+    
+    .submit-btn:hover {
+      background: #e64a19;
+    }
+    
+        /* Footer */
+    footer {
+      background: #2c2c2c;
+      color: #fff;
+      padding: 50px 20px;
+    }
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .footer-logo {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+    .footer-about {
+      line-height: 1.6;
+      color: #ccc;
+    }
+    .footer-links h3, .footer-newsletter h3 {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+    .footer-links h3::after, .footer-newsletter h3::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 50px;
+      height: 3px;
+      background: #ff5722;
+    }
+    .footer-links ul {
+      list-style: none;
+    }
+    .footer-links ul li {
+      margin-bottom: 10px;
+    }
+    .footer-links ul li a {
+      color: #ccc;
+      transition: color 0.3s;
+    }
+    .footer-links ul li a:hover {
+      color: #ff5722;
+    }
+    .footer-newsletter form {
+      display: flex;
+      margin-top: 15px;
+    }
+    .footer-newsletter input {
+      flex: 1;
+      padding: 12px;
+      border: none;
+      outline: none;
+      border-radius: 4px 0 0 4px;
+    }
+    .footer-newsletter button {
+      background: #ff5722;
+      color: white;
+      border: none;
+      padding: 0 20px;
+      cursor: pointer;
+      border-radius: 0 4px 4px 0;
+      transition: background 0.3s;
+    }
+    .footer-newsletter button:hover {
+      background: #e64a19;
+    }
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .social-links a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: #444;
+      border-radius: 50%;
+      color: white;
+      transition: background 0.3s;
+    }
+    .social-links a:hover {
+      background: #ff5722;
+    }
+    .copyright {
+      text-align: center;
+      padding-top: 30px;
+      margin-top: 30px;
+      border-top: 1px solid #444;
+      color: #999;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.8rem;
+      }
+      .hero .sub-text {
+        font-size: 1.1rem;
+      }
+      .restaurants-list,
+      .dishes-list {
+        justify-content: center;
+      }
+      .how-it-works {
+        flex-direction: column;
+        align-items: center;
+      }
+      .menu-categories {
+        flex-direction: column;
+        gap: 15px;
+        max-width: 350px;
+        margin: 0 auto;
+      }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .contact-hero h1 {
+        font-size: 2.5rem;
+      }
+      
+      .contact-container {
+        flex-direction: column;
+      }
+      
+      .contact-info, .contact-form {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="site-logo"><p>F🍛🍛die</p></div>
+    <ul class="navbar-links">
+      <li><a href="index.html">Home</a></li>
+      <li class="navbar-dropdown active">
+        <a href="#">Restaurants</a>
+        <div class="dropdown">
+          <a href="restaurants.html">Restaurants</a>
+          <a href="restaurant-card.html">Restaurant Card</a>
+          <a href="checkout.html">Checkout</a>
+        </div>
+      </li>
+      <li><a href="offers.html">Offers</a></li>
+      <li><a href="about-us.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <button class="button-2">Contact Us</button>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="contact-hero">
+    <div class="contact-hero-content">
+      <h1>Get in Touch with Foodie</h1>
+      <p>We're here to answer any questions you may have about our services, delivery areas, or partnerships.</p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="contact-section">
+    <div class="contact-container">
+      <!-- Contact Information -->
+      <div class="contact-info">
+        <div class="contact-card">
+          <h3>Contact Information</h3>
+          
+          <div class="contact-method">
+            <div class="contact-icon">📍</div>
+            <div class="contact-detail">
+              <h4>Our Address</h4>
+              <p>123 Foodie Street, Food Plaza<br>Mumbai, Maharashtra 400001</p>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon">📞</div>
+            <div class="contact-detail">
+              <h4>Phone Number</h4>
+              <p>+91 98765 43210<br>+91 22 1234 5678</p>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="contact-icon">✉️</div>
+            <div class="contact-detail">
+              <h4>Email Address</h4>
+              <p>support@foodie.com<br>partners@foodie.com</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="contact-card">
+          <h3>Working Hours</h3>
+          <table class="hours-table">
+            <tr>
+              <td class="day">Monday - Friday</td>
+              <td>8:00 AM - 11:00 PM</td>
+            </tr>
+            <tr>
+              <td class="day">Saturday</td>
+              <td>9:00 AM - 12:00 AM</td>
+            </tr>
+            <tr>
+              <td class="day">Sunday</td>
+              <td>9:00 AM - 11:00 PM</td>
+            </tr>
+            <tr>
+              <td class="day">Holidays</td>
+              <td>10:00 AM - 10:00 PM</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Contact Form -->
+      <div class="contact-form">
+        <div class="contact-card">
+          <h3>Send Us a Message</h3>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Your Name</label>
+              <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone">
+            </div>
+            
+            <div class="form-group">
+              <label for="subject">Subject</label>
+              <select id="subject" name="subject" required>
+                <option value="" disabled selected>Select a subject</option>
+                <option value="order">Order Inquiry</option>
+                <option value="delivery">Delivery Issue</option>
+                <option value="partnership">Restaurant Partnership</option>
+                <option value="feedback">Feedback & Suggestions</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Your Message</label>
+              <textarea id="message" name="message" required></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">Send Message</button>
+          </form>
+        </div>
+        
+      </div>
+    </div>
+</section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-about">
+        <div class="footer-logo">F🍛🍛die</div>
+        <p>Foodie brings delicious meals right to your doorstep. We partner with the best local restaurants to give you a variety of options.</p>
+        <div class="social-links">
+          <a href="#" aria-label="Facebook">f</a>
+          <a href="#" aria-label="Twitter">t</a>
+          <a href="#" aria-label="Instagram">i</a>
+          <a href="#" aria-label="YouTube">y</a>
+        </div>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Restaurants</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Offers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-links">
+        <h3>Categories</h3>
+        <ul>
+          <li><a href="#">Italian</a></li>
+          <li><a href="#">Indian</a></li>
+          <li><a href="#">Japanese</a></li>
+          <li><a href="#">Mexican</a></li>
+          <li><a href="#">Desserts</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-newsletter">
+        <h3>Newsletter</h3>
+        <p>Subscribe to get special offers and restaurant updates</p>
+        <form>
+          <input type="email" placeholder="Your email address">
+          <button type="submit">→</button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="copyright">
+      <p>&copy; 2023 Foodie. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+  document.getElementById("contactForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const data = {
+      name: document.getElementById("name").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      subject: document.getElementById("subject").value.trim(),
+      message: document.getElementById("message").value.trim()
+    };
+
+    fetch("/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.text())
+    .then(msg => {
+      alert(msg);
+      document.getElementById("contactForm").reset();
+    })
+    .catch(err => {
+      alert("Error: Could not submit the form.");
+      console.error(err);
+    });
+  });
+</script>
+
+
+</body>
+</html>
